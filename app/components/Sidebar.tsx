@@ -9,6 +9,11 @@ export default function Sidebar({ user }: any) {
             url: '/'
         },
         {
+            name: 'Staff',
+            icon: <span className="material-symbols-outlined">insert_chart</span>,
+            url: '/staff'
+        },
+         {
             name: 'About Us',
             icon: <span className="material-symbols-outlined">insert_chart</span>,
             url: '/aboutus'
