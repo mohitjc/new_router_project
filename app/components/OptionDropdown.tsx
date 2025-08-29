@@ -157,9 +157,9 @@ const OptionDropdown = ({isSearch=true, isLoading = false,position='absolute', i
                                             Click here to add "{search}"
                                         </div>
                                     </> : <></>}
-                                    {list.map((option:any) => (
+                                    {list.map((option:any,i:any) => (
                                         <div
-                                            key={option.id}
+                                            key={option.id||i}
                                             onClick={() => (option.id != value) ? handleChange(option) : {}}
                                             className={`px-[12px] py-[8px] border-b cursor-pointer ${value == option.id ? 'bg-primary text-white' : ''} ${option.color ? `text-[${option.color}]` : ''} ${option.className || ''}`}
                                         >

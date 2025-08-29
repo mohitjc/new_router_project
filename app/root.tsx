@@ -12,6 +12,8 @@ import "./app.css";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,6 +32,20 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+const Loading = ({ id = '', className = '' }) => {
+  return <>
+    <div id={id} className={`flex fixed items-center justify-center top-0 left-0 w-full h-full  backdrop-blur ${className}`}>
+      <div>
+        <img
+          src="/img/loader.gif"
+          alt="logo"
+          className="w-[50px]"
+        />
+      </div>
+    </div>
+  </>
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -42,10 +58,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-  {children}
+            {children}
           </PersistGate>
-      
         </Provider>
+        <ToastContainer />
+        <Loading id="loader" className="hidden" />
         <ScrollRestoration />
         <Scripts />
       </body>
