@@ -1,4 +1,3 @@
-// src/utils/indexedDBStorage.ts
 import { openDB } from "idb";
 import type { Storage } from "redux-persist";
 import envirnment from "~/envirnment";
