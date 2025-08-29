@@ -35,7 +35,7 @@ export default function Header({user}:any) {
                     placeholder={<>
                     <button className="flex items-center focus:outline-none cursor-pointer">
                       <img className="h-8 w-8 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" />
-                      <span className="mx-2 text-gray-700">John Doe</span>
+                      <span className="mx-2 text-gray-700">{user?.email}</span>
                       <i className="fas fa-chevron-down text-gray-500"></i>
                     </button>
                     </>}
