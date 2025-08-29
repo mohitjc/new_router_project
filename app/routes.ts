@@ -8,13 +8,10 @@ export default [
         route("aboutus", "routes/about.tsx", {}),
         route("blog/:slug", "routes/blog_detail.tsx", {}),
     ]),
-    
+    // Auth Layout (wrapper)
     route("", "routes/auth.tsx", [
-        route("login", "routes/login.tsx", {
-        }),
+        route("login", "routes/login.tsx", {}),
     ]),
-     route("protected", "routes/protected.tsx", {
-        }),
-    route("*", "routes/not_found.tsx", {
-    }),
+    route("protected", "routes/protected.tsx", {}),
+    route("*", "routes/not_found.tsx", {}),
 ] satisfies RouteConfig;

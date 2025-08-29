@@ -1,11 +1,30 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
-import methodModel from "../utils/methods";
 
-const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = false, type = 'text', searchText = 'Search', maxlength = null, minlength = null, disabled = false, options = [], className = '', placeholder = 'Select', value = '', displayValue = 'name', valueType = 'string', onChange = (_) => { } }) => {
+const isNumber = (e:any) => {
+  let key = e.target;
+  let maxlength = key.maxLength ? key.maxLength : 0;
+
+  let max = Number(key.max ? key.max : key.value);
+  if (Number(key.value) > max) key.value = max;
+
+  // let min = key.min;
+  // if (min && Number(key.value)<Number(min)) key.value = min;
+
+
+  if (maxlength > 0) {
+    if (key.value.length > maxlength) key.value = key.value.slice(0, maxlength);
+  }
+
+  key.value = key.value.replace(/[^0-9.]/g, "").replace(/(\..*?)\..*/g, "$1");
+
+  return key.value;
+};
+
+const OptionDropdown = ({isSearch=true, isLoading = false,position='absolute', isCreate = false, type = 'text', searchText = 'Search', maxlength = undefined, minlength = undefined, disabled = false, options = [], className = '', placeholder, value = '', displayValue = 'name', valueType = 'string', onChange = (_:any) => { } }:any) => {
     const [isOpen, setIsOpen] = useState(false);
-    const buttonRef = useRef(null);
-    const dropdownRef = useRef(null);
+    const buttonRef = useRef<any>(null);
+    const dropdownRef = useRef<any>(null);
 
     // This state stores the position of the button to place dropdown accordingly
     const [dropdownStyle, setDropdownStyle] = useState({});
@@ -38,10 +57,12 @@ const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = fals
         }
     }, [isOpen]);
 
-    const handleChange = (e) => {
+    const handleChange = (option:any) => {
+        if(option?.onClick) option.onClick(option)
+        let e=option.id
         let v = e;
         if (valueType == "object") {
-            v = options.find((itm) => itm.id == e);
+            v = options.find((itm:any) => itm.id == e);
         }
         setIsOpen(false);
         onChange(v)
@@ -54,7 +75,7 @@ const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = fals
             id: value,
             [displayValue]: value || placeholder || 'Select'
         }
-        let ext = options.find(itm => itm.id == value)
+        let ext:any = options.find((itm:any) => itm.id == value)
         if (ext) v = {
             color: '',
             className: '',
@@ -65,7 +86,7 @@ const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = fals
 
     const list = useMemo(() => {
         let arr = [...options]
-        arr = arr.filter(itm => itm[displayValue]?.toLowerCase()?.includes(search?.toLowerCase().trim()))
+        arr = arr.filter((itm:any) => itm[displayValue]?.toLowerCase()?.includes(search?.toLowerCase().trim()))
         return arr
     }, [options, search])
 
@@ -81,10 +102,10 @@ const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = fals
         setIsOpen(false);
     }
 
-    const onSearch = (e) => {
+    const onSearch = (e:any) => {
         let v = ''
         if (type == 'number') {
-            v = methodModel.isNumber(e)
+            v = isNumber(e)
         } else {
             v = e.target.value
         }
@@ -104,7 +125,7 @@ const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = fals
                 <div className={`truncate w-full border-r border-[#cccccc] pr-3 ${selected.color ? `text-[${selected.color}]` : ''} ${selected.className || ''}`}>
                     {selected[displayValue]}
                 </div>
-                down
+                <span className="material-symbols-outlined">arrow_drop_down</span>
 
             </button>
 
@@ -113,12 +134,15 @@ const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = fals
                     <div ref={dropdownRef} >
                         <div className="fixed w-full h-full  z-[9999] top-0 left-0" onClick={() => setIsOpen(false)}></div>
                         <div style={dropdownStyle} className="rounded-[5px] border-2 mt-2 border-primary shadow">
-                            <div className="p-[4px] relative">
-                                <input type="text" maxLength={maxlength} minLength={minlength} className="w-full border px-[10px] py-[4px] rounded" placeholder={searchText} value={search} onChange={e => onSearch(e)} />
-                                {search ? <span class="material-symbols-outlined cursor-pointer absolute top-[12px] text-[14px] right-[7px]"
-                                    onClick={() => setSearch('')}
-                                >close</span> : <></>}
-                            </div>
+                            {isSearch ? <>
+                                <div className="p-[4px] relative">
+                                    <input type="text" maxLength={maxlength} minLength={minlength} className="w-full border px-[10px] py-[4px] rounded" placeholder={searchText} value={search} onChange={e => onSearch(e)} />
+                                    {search ? <span className="material-symbols-outlined cursor-pointer absolute top-[12px] text-[14px] right-[7px]"
+                                        onClick={() => setSearch('')}
+                                    >close</span> : <></>}
+                                </div>
+                            </> : <></>}
+                            
                             <div className="overflow-auto max-h-[180px] text-[14px]">
                                 {isLoading ? <>
                                     <div className="px-[12px] py-[8px] text-center">Loading...</div>
@@ -133,10 +157,10 @@ const OptionDropdown = ({ isLoading = false,position='absolute', isCreate = fals
                                             Click here to add "{search}"
                                         </div>
                                     </> : <></>}
-                                    {list.map((option) => (
+                                    {list.map((option:any) => (
                                         <div
                                             key={option.id}
-                                            onClick={() => (option.id != value) ? handleChange(option.id) : {}}
+                                            onClick={() => (option.id != value) ? handleChange(option) : {}}
                                             className={`px-[12px] py-[8px] border-b cursor-pointer ${value == option.id ? 'bg-primary text-white' : ''} ${option.color ? `text-[${option.color}]` : ''} ${option.className || ''}`}
                                         >
                                             {option[displayValue]}
