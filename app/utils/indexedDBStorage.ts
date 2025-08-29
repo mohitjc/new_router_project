@@ -1,9 +1,10 @@
 // src/utils/indexedDBStorage.ts
 import { openDB } from "idb";
 import type { Storage } from "redux-persist";
+import envirnment from "~/envirnment";
 
-const dbName = "new_project";
-const storeName = "redux";
+const dbName = `${envirnment.app_name}DB`;
+const storeName = `${envirnment.app_name}_Redux`;
 
 async function getDB() {
   return openDB(dbName, 1, {
