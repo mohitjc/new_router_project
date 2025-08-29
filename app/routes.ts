@@ -7,6 +7,7 @@ export default [
         }),
         route("aboutus", "routes/about.tsx", {}),
         route("staff", "routes/staff/index.tsx", {}),
+        route("staff/add", "routes/staff/add.tsx", {}),
         route("blog/:slug", "routes/blog_detail.tsx", {}),
     ]),
     // Auth Layout (wrapper)

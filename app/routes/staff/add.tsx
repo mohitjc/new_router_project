@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import DebouncedInput from "~/components/DebouncedInput";
-import Table from "~/components/Table";
 import ApiClientB from "~/utils/Apiclient";
-import type { Route } from "./+types";
+import type { Route } from "./+types/add";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Staff" },
-    { name: "description", content: "Staff" },
+    { title: "Add Staff" },
+    { name: "description", content: "Add Staff" },
   ];
 }
 
@@ -115,57 +113,13 @@ export default function Staff() {
             <div className="container mx-auto px-4 py-8">
 
                 <div className="text-center mb-10">
-                    <h1 className="text-3xl font-bold text-gray-800">Staff Directory</h1>
+                    <h1 className="text-3xl font-bold text-gray-800">Add Staff Directory</h1>
                     <p className="text-gray-600 mt-2">Browse and manage your organization's staff members</p>
                 </div>
 
 
                 <div className="bg-white rounded-lg shadow p-6 mb-6">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-
-                        <div className="relative flex-1">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i className="fas fa-search text-gray-400"></i>
-                            </div>
-                            <DebouncedInput
-                                type="text"
-                                id="searchInput"
-                                value={filters.search}
-                                onChange={e=>{
-                                    setFilter(prev=>({...prev,search:e}))
-                                }}
-                                placeholder="Search by name, department or email..."
-                                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            />
-                        </div>
-
-
-                        <div className="flex items-center space-x-2">
-                            <span className="text-gray-700 whitespace-nowrap">Status:</span>
-                            <select id="statusFilter" className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="all">All Status</option>
-                                <option value="active">Active</option>
-                                <option value="on-leave">On Leave</option>
-                                <option value="remote">Remote</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow overflow-hidden">
-                    <Table
-                        list={list}
-                        columns={columns}
-                        isLoading={listLoading}
-                    />
-                </div>
-
-
-                <div id="emptyState" className="hidden text-center py-12 bg-white rounded-lg shadow mt-6">
-                    <i className="fas fa-search fa-3x text-gray-300 mb-4"></i>
-                    <h3 className="text-xl font-medium text-gray-700">No staff members found</h3>
-                    <p className="text-gray-500 mt-2">Try adjusting your search or filter criteria</p>
+                    add staff
                 </div>
             </div>
         </>
