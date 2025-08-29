@@ -13,6 +13,11 @@ export default function Layout() {
       navigate("/login");
     }
   }, [user])
+  
+
+  if(!user){
+    return <></>
+  }
 
   return (
     <>
