@@ -35,11 +35,11 @@ export default function Header({ user }: any) {
           <div className="relative">
             <OptionDropdown
               placeholder={<>
-                <button className="flex items-center focus:outline-none cursor-pointer">
+                <div className="flex items-center focus:outline-none cursor-pointer">
                   <img className="h-8 w-8 rounded-full object-cover" src={noImg(user?.image)} alt="User" />
                   <span className="mx-2 text-gray-700">{user?.fullName}</span>
                   <i className="fas fa-chevron-down text-gray-500"></i>
-                </button>
+                </div>
               </>}
               options={[
                 {
